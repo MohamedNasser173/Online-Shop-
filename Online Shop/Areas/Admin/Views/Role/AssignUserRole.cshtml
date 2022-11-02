@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<br />
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Assign User Role</h2>
+    </div>
+
+    @*<div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i> &nbsp; New Role</a>
+    </div>*@
+</div>
+<br />
+<div>
+    <table class="table table-striped border">
+        <tr class="table-info">
+            <th>
+                User Name
+            </th>
+            <th>Role Name </th>
+ 
+
+        </tr>
+
+        @foreach (var item in ViewBag.UserRoles)
+        {
+            <tr>
+                <td> @item.UserName</td>
+                <td>@item.RoleName</td>
+                
+
+
+            </tr>
+        }
+    </table>
+</div>
+@section scripts
+{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+
+        $(function () {
+            var save = '@TempData["save"]'
+            var update = '@TempData["update"]'
+            var deleted = '@TempData["delete"]'
+
+            if (save != '') {
+                alertify.success(save);
+            }
+            if (update != '') {
+                alertify.success(update);
+            }
+            if (deleted != '') {
+                alertify.error(deleted);
+            }
+        })
+    </script>
+
+
+}

@@ -1,0 +1,113 @@
+﻿@model Products
+@{
+    ViewData["Title"] = "Edit product";
+}
+
+
+@using Microsoft.AspNetCore.Http
+@using Online_Shop.Utility
+@inject IHttpContextAccessor  httpContextAccessor
+@{
+    List<Products> products = httpContextAccessor.HttpContext.Session.Get<List<Products>>("_products");
+    Products productInChart=null;
+    if (products != null)
+    {
+        productInChart = products.FirstOrDefault(m => m.Id == Model.Id);
+    }
+}
+<br />
+<h2 class="text-info">Edit product </h2>
+<form method="post" asp-action="Details" enctype="multipart/form-data">
+    <div class="p-4 rounded border row">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+
+        </div>
+        <div class="col-9">
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="Name" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Price"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Price" class="form-control" readonly="readonly" />
+                </div>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="ProductColor"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="ProductColor" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="ProductColor" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="ProductTypeId"></label>
+                </div>
+                <div class="col-5">
+                    @*<select asp-for="ProductTypeId" readonly="readonly" asp-items="ViewBag.ProductTypeId" class="form-control"></select>*@
+                    <input asp-for="ProductTypeId" readonly="readonly" class="form-control" />
+                </div>
+                <span asp-validation-for="ProductTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                </div>
+                <div class="col-5">
+                    @if (productInChart != null)
+                    {
+                       <button class="btn btn-danger form-control" type="submit"
+                               asp-action="Remove" asp-route-id="@Model.Id">Remove from chart</button>
+
+                    }
+                    else
+                    {
+                        @if (Model.IsAvailable == "true")
+                        {
+                            <input type="submit" value="Add to chart" class="btn btn-info form-control" />
+                        }
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-success">Back to List</a>
+
+            </div>
+
+        </div>
+        <div class="col-3">
+            <img src="~/@Model.Image" width="100%"
+                 style="border-radius : 5px;border:1px solid #efefef" asp-append-version="true" />
+            @if (Model.IsAvailable == "true")
+            {
+                <img src="~/Images/inStockjpg.jpg" width="100%" height="50px" />
+            }
+            else
+            {
+                <img src="~/Images/notAvailable.jpg" width="100%" height="100px" />
+
+            }
+
+        </div>
+
+    </div>
+
+</form>
+@section Scripts{
+    @{ await Html.RenderPartialAsync(partialViewName: "_ValidationScriptsPartial"); }
+}

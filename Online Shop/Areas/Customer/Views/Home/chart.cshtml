@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Products>
+@{
+    ViewData["Title"] = "chart";
+}
+
+<h1>your chart</h1>
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Product Type</th>
+                <th>Color</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+            <tr>
+                <td>
+                    <img src="~/@item.Image" width="200px" height="150px" />
+                </td>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>@item.productTypes.ProductType</td>
+                <td>@item.ProductColor</td>
+                <td>
+                    <a class="btn btn-danger" asp-action="remove" asp-controller="Home" asp-route-id="@item.Id">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>
+<div class="row">
+    <div class="col-6">
+        <a class="btn btn-success" asp-controller="Home" asp-action="Index">Back To Home</a>
+    </div>
+    <div class="col-6 text-right">
+        <h3>Total Amount</h3>
+        <h3>Total : @Model.Sum(p => p.Price)</h3>
+        <a class="btn btn-info" asp-controller="order" asp-action="CheckOut">process To checkout</a>
+
+    </div>
+</div>
+

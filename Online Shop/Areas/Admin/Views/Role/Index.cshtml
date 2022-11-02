@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<br />
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">roles List</h2>
+    </div>
+
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i> &nbsp; New Role</a>
+    </div>
+</div>
+<br />
+<div>
+    <table class="table table-striped border">
+        <tr class="table-info">
+            <th>
+                Roles
+            </th>
+            <th></th>
+            <th></th>
+
+
+        </tr>
+
+        @foreach (var item in ViewBag.roles)
+        {
+            <tr>
+                <td> @item.Name</td>
+                <td></td>
+                <td style="width :150px">
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">
+                            <i class="fas fa-list"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+
+                    </div>
+                </td>
+
+
+            </tr>
+        }
+    </table>
+</div>
+@section scripts
+{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+
+        $(function () {
+            var save = '@TempData["save"]'
+            var update = '@TempData["update"]'
+            var deleted = '@TempData["delete"]'
+
+            if (save != '') {
+                alertify.success(save);
+            }
+            if (update != '') {
+                alertify.success(update);
+            }
+            if (deleted != '') {
+                alertify.error(deleted);
+            }
+        })
+    </script>
+
+
+}

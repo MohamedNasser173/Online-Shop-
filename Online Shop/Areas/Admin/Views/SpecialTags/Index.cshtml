@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SpecialTags>
+@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<br />
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Special Tag List</h2>
+    </div>
+
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i> &nbsp; New tag Type</a>
+    </div>
+</div>
+<br />
+<div>
+    <table class="table table-striped border">
+        <tr class="table-info">
+            <th>
+                @Html.DisplayNameFor(expression: c => c.specialTag)
+            </th>
+            <th></th>
+            <th></th>
+
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td> @item.specialTag</td>
+                <td></td>
+                   <td style="width :150px">
+                       <div class="btn-group">
+                           <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
+                               <i class="far fa-edit"></i>
+                           </a>
+                           <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">
+                               <i class="fas fa-list"></i>
+                           </a>
+                           <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                               <i class="fas fa-trash-alt"></i>
+                           </a>
+
+                       </div>
+                </td>
+
+                
+            </tr>
+        }
+    </table>
+</div>

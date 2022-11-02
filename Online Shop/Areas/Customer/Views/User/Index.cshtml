@@ -1,0 +1,108 @@
+﻿@model IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<br />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Usrers  List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i> &nbsp;  Add new User </a>
+    </div>
+</div>
+<br />
+<br />
+<div>
+    <table class="table table-striped border" id="myTable">
+        <thead>
+            <tr class="table-info">
+
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+            <tr>
+                <td>@user.FirstName @user.LastName</td>
+                <td>@user.UserName</td>
+                @if (user.LockoutEnd > DateTime.Now && user.LockoutEnd != null)
+                {
+                    <td>InActive</td>
+                   <td>
+                       <td style="width :150px">
+                        <div class="btn-group">
+                            <a asp-action="Active" asp-route-id="@user.Id" class="btn btn-primary">
+                                <i class="far fa-edit"></i>
+                            </a>
+
+                            <a asp-action="delete" asp-route-id="@user.Id" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+
+                        </div>
+                       </td>
+                   </td>
+                }
+                else
+                {
+                    <td>Active</td>
+                    <td>
+                        <partial name="_PartialView" model="@user.Id" />
+                    </td>
+
+                }
+
+            </tr>
+            }
+        </tbody>
+
+
+
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section scripts
+{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+
+
+
+        $(function () {
+            var save = '@TempData["save"]'
+            var update = '@TempData["update"]'
+            var deleted = '@TempData["delete"]'
+
+            if (save != '') {
+                alertify.success(save);
+            }
+            if (update != '') {
+                alertify.success(update);
+            }
+            if (deleted != '') {
+                alertify.error(deleted);
+            }
+        })
+    </script>
+}
